@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
@@ -11,6 +12,7 @@ const HomeScreen = ({ match }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if()
   }, []);
 
   return (

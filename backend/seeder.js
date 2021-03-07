@@ -6,7 +6,7 @@ import colors from "colors";
 import users from "./data/users.js";
 import secretMessages from "./data/secretMessages.js";
 import User from "./models/userModel.js";
-import SecretMessage from "./models/secretMessageModel";
+import SecretMessage from "./models/secretMessageModel.js";
 import connectDB from "./config/db.js";
 
 dotenv.config();
