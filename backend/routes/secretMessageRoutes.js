@@ -1,20 +1,16 @@
 import express from "express";
 const router = express.Router();
 import {
+  getSecretMessage,
   createSecretMessage,
   deleteSecretMessage,
-  getSecretMessage,
-} from "../controllers/userController.js";
+} from "../controllers/secretMessageController";
 import { protect } from "../middleware/authMiddleware.js";
 
-router.route("/").post(registerUser).get(protect, getUsers);
-router.post("/login", authUser);
 router
-  .route("/profile")
-  .get(protect, getUserProfile)
-  .put(protect, updateUserProfile);
-router
-  .route("/:id")
-  .put(protect, updateUser);
+  .route("/")
+  .get(protect, getSecretMessage)
+  .post(protect, createSecretMessage)
+  .delete(protect, deleteSecretMessage);
 
 export default router;
