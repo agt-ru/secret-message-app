@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
-import { listSecretMessagesUrls } from "../actions/secretMessageActions";
 import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
+import { v4 as uuid } from "uuid";
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState("");
@@ -25,13 +25,6 @@ const ProfileScreen = ({ location, history }) => {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
-  const secretMessageList = useSelector((state) => state.secretMessageList);
-  const {
-    loading: loadingSecretMessages,
-    error: errorSecretMessages,
-    secretMessageUrls,
-  } = secretMessageList;
-
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
@@ -39,7 +32,6 @@ const ProfileScreen = ({ location, history }) => {
       if (!user || !user.name || success) {
         dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails("profile"));
-        dispatch(listSecretMessagesUrls(userInfo.secretMessages));
       } else {
         setName(user.name);
         setEmail(user.email);
@@ -119,10 +111,10 @@ const ProfileScreen = ({ location, history }) => {
 
       <Col md={9}>
         <h2>My Secret Message URLs</h2>
-        {loadingSecretMessages ? (
+        {loading ? (
           <Loader />
-        ) : errorSecretMessages ? (
-          <Message variant="danger">{errorSecretMessages}</Message>
+        ) : error ? (
+          <Message variant="danger">{error}</Message>
         ) : (
           <Table striped bordered hover responsive className="table-sm">
             <thead>
@@ -131,13 +123,15 @@ const ProfileScreen = ({ location, history }) => {
               </tr>
             </thead>
             <tbody>
-              {secretMessageUrls.map((url) => (
-                <tr key={url._id}>
-                  <td>
-                    <a href={url.url}>{url.url}</a>
-                  </td>
-                </tr>
-              ))}
+              {user &&
+                user.urls &&
+                user.urls.map((url) => (
+                  <tr key={uuid()}>
+                    <td>
+                      <a href={url}>{url}</a>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </Table>
         )}

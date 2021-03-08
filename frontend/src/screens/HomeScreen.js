@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Table,
@@ -54,14 +54,14 @@ const HomeScreen = ({ match, history }) => {
         [e.target[2].value, userInfo._id]
       )
     );
-
+    history.push('/profile');
     // e.target[0].disabled = true;
     // e.target[1].disabled = true;
     // e.target[2].disabled = true;
     // e.target[3].disabled = true;
   };
   return keyword ? (
-    <SharedMessage keyword={keyword} />
+    <Route render={({ history }) => <SharedMessage history={history} keyword={keyword} />} />
   ) : (
     <FormContainer>
       <h1>Create Secret Message</h1>
@@ -78,6 +78,7 @@ const HomeScreen = ({ match, history }) => {
               rows={3}
               placeholder="Enter your secret message"
               value={secretMessage}
+              required
               onChange={(e) => setSecretMessage(e.target.value)}
             />
           </Form.Group>
@@ -88,6 +89,7 @@ const HomeScreen = ({ match, history }) => {
               type="password"
               placeholder="Password"
               value={password}
+              required
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>

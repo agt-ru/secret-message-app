@@ -20,7 +20,7 @@ import {
 } from "../actions/secretMessageActions";
 import FormContainer from "../components/FormContainer";
 
-const SharedMessage = ({ keyword }) => {
+const SharedMessage = ({ keyword, history }) => {
   const [showMsg, setShowMsg] = useState(false);
   const [password, setPassword] = useState("");
 
@@ -29,42 +29,60 @@ const SharedMessage = ({ keyword }) => {
   const secretMessageDetails = useSelector(
     (state) => state.secretMessageDetails
   );
-  const { message } = secretMessageDetails;
 
-  // useEffect(() => {
-  //   if (password) {
-  //     dispatch(getSecretMessageDetails(keyword, password));
-  //   }
-  // }, [dispatch, keyword, password]);
+  let message = "";
+  const { secretMessage, loading, error } = secretMessageDetails;
+  if (secretMessage) message = secretMessage.message;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password) {
       dispatch(getSecretMessageDetails(keyword, password));
+      setShowMsg(true);
     }
   };
 
-  return showMsg ? (
-    <h1>Your secret message</h1>
-  ) : (
+  const handleDelete = (e) => {
+    e.preventDefault();
+    if (password) {
+      dispatch(deleteSecretMessage(keyword, password));
+      history.push('/profile');
+    }
+  };
+
+  return (
     <FormContainer>
       <h1>View Secret Message</h1>
-      <h2>{message}</h2>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formPassword">
-          <Form.Label>Enter Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
+      {error && <Message variant="danger">{error}</Message>}
+      {showMsg && !error ? (
+        <Form onSubmit={handleDelete}>
+          <Form.Group controlId="exampleForm.ControlTextarea1">
+            <Form.Label>Your secret message</Form.Label>
+            <Form.Control as="textarea" value={message} resize="none" rows={3} />
+          </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+          <Button variant="danger" type="submit">
+            Delete
+          </Button>
+        </Form>
+      ) : (
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="formPassword">
+            <Form.Label>Enter Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              value={password}
+              required
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      )}
     </FormContainer>
   );
 };

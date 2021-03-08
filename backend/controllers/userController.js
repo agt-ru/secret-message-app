@@ -63,11 +63,21 @@ const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
+    let myUser = await User.findById(req.user._id).populate(
+      "secretMessages",
+      "id keyword"
+    );
+    const urls = [];
+    myUser.secretMessages.forEach((msg) => {
+      urls.push(`http://localhost:3000/${msg.keyword}`);
+    });
+
     res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      secretMessages: user.secretMessages,
+      _id: myUser._id,
+      name: myUser.name,
+      email: myUser.email,
+      secretMessages: myUser.secretMessages,
+      urls: urls,
     });
   } else {
     res.status(404);

@@ -6,9 +6,6 @@ import {
   SECRET_MESSAGE_DETAILS_REQUEST,
   SECRET_MESSAGE_DETAILS_SUCCESS,
   SECRET_MESSAGE_DETAILS_FAIL,
-  SECRET_MESSAGE_LIST_REQUEST,
-  SECRET_MESSAGE_LIST_SUCCESS,
-  SECRET_MESSAGE_LIST_FAIL,
   SECRET_MESSAGE_DELETE_REQUEST,
   SECRET_MESSAGE_DELETE_SUCCESS,
   SECRET_MESSAGE_DELETE_FAIL,
@@ -79,16 +76,16 @@ export const getSecretMessageDetails = (keyword, password) => async (
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`,
+      },
+      params: {
+        keyword,
+        password,
       },
     };
 
-    const { data } = await axios.get(
-      `/api/secretmessages`,
-      { keyword, password },
-      config
-    );
+    const { data } = await axios.get(`/api/secretmessages`, config);
+
     dispatch({
       type: SECRET_MESSAGE_DETAILS_SUCCESS,
       payload: data,
@@ -103,48 +100,6 @@ export const getSecretMessageDetails = (keyword, password) => async (
     }
     dispatch({
       type: SECRET_MESSAGE_DETAILS_FAIL,
-      payload: message,
-    });
-  }
-};
-
-export const listSecretMessagesUrls = (ids) => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: SECRET_MESSAGE_LIST_REQUEST,
-    });
-
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    let urls = [];
-
-    for (const id of ids) {
-      const { data } = await axios.get(`/api/secretmessages/${id}`, config);
-      urls.push(data);
-    }
-
-    dispatch({
-      type: SECRET_MESSAGE_LIST_SUCCESS,
-      payload: urls,
-    });
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message;
-    if (message === "Not authorized, token failed") {
-      dispatch(logout());
-    }
-    dispatch({
-      type: SECRET_MESSAGE_LIST_FAIL,
       payload: message,
     });
   }
@@ -165,12 +120,15 @@ export const deleteSecretMessage = (keyword, password) => async (
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`,
+      },
+      params: {
+        keyword,
+        password,
       },
     };
 
-    await axios.delete(`/api/secretmessages`, { keyword, password }, config);
+    await axios.delete(`/api/secretmessages`, config);
 
     dispatch({ type: SECRET_MESSAGE_DELETE_SUCCESS });
   } catch (error) {

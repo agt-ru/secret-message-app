@@ -39,7 +39,7 @@ const createSecretMessage = asyncHandler(async (req, res) => {
 // @route   GET /api/secretmessages
 // @access  Private
 const getSecretMessage = asyncHandler(async (req, res) => {
-  const { keyword, password } = req.body;
+  const { keyword, password } = req.query;
 
   const secretMessage = await SecretMessage.findOne({ keyword });
   if (secretMessage && (await secretMessage.matchPassword(password))) {
@@ -50,26 +50,7 @@ const getSecretMessage = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(404);
-    throw new Error("Secret message not found");
-  }
-});
-
-// @desc    Get secret message url by ID
-// @route   GET /api/secretmessages/:id
-// @access  Private
-const getSecretMessageUrlById = asyncHandler(async (req, res) => {
-  const secretMessage = await SecretMessage.findById(req.params.id).select(
-    "-password"
-  );
-
-  if (secretMessage) {
-    res.json({
-      _id: secretMessage._id,
-      url: `http://localhost:3000/${secretMessage.keyword}`,
-    });
-  } else {
-    res.status(404);
-    throw new Error("Secret message not found");
+    throw new Error("Wrong password or secret message not found");
   }
 });
 
@@ -77,7 +58,7 @@ const getSecretMessageUrlById = asyncHandler(async (req, res) => {
 // @route   DELETE /api/secretmessages
 // @access  Private
 const deleteSecretMessage = asyncHandler(async (req, res) => {
-  const { keyword, password } = req.body;
+  const { keyword, password } = req.query;
 
   const secretMessage = await SecretMessage.findOne({ keyword });
 
@@ -94,5 +75,4 @@ export {
   createSecretMessage,
   deleteSecretMessage,
   getSecretMessage,
-  getSecretMessageUrlById,
 };

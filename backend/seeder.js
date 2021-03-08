@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import colors from "colors";
 
 import users from "./data/users.js";
-import secretMessages from "./data/secretMessages.js";
 import User from "./models/userModel.js";
 import SecretMessage from "./models/secretMessageModel.js";
 import connectDB from "./config/db.js";
@@ -18,19 +17,7 @@ const importData = async () => {
     await User.deleteMany();
     await SecretMessage.deleteMany();
 
-    const createdSecretMessages = await SecretMessage.insertMany(
-      secretMessages
-    );
-    const sampleSecretMessage = createdSecretMessages[0]._id;
-
-    const sampleUsers = users.map((user) => {
-      return {
-        ...user,
-        secretMessages: [sampleSecretMessage],
-      };
-    });
-
-    await User.insertMany(sampleUsers);
+    await User.insertMany(users);
 
     console.log("Data Imported!".green.inverse);
     process.exit();

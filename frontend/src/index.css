@@ -18,6 +18,10 @@ h2 {
   margin-right: auto;
 }
 
+textarea {
+  resize: none;
+}
+
 @media (max-width: 900px) {
   .carousel-caption h2 {
     font-size: 2.5vw;

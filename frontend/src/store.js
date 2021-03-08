@@ -12,7 +12,6 @@ import {
 import {
   secretMessageCreateReducer,
   secretMessageDetailsReducer,
-  secretMessageListReducer,
   secretMessageDeleteReducer,
 } from "./reducers/secretMessageReducers";
 
@@ -25,7 +24,6 @@ const reducer = combineReducers({
   userUpdate: userUpdateReducer,
   secretMessageCreate: secretMessageCreateReducer,
   secretMessageDetails: secretMessageDetailsReducer,
-  secretMessageList: secretMessageListReducer,
   secretMessageDelete: secretMessageDeleteReducer,
 });
 
