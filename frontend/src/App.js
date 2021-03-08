@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -13,11 +13,13 @@ const App = () => {
       <Header />
       <main className="py-3">
         <Container>
-          <Route path="/login" component={LoginScreen} />
-          <Route path="/register" component={RegisterScreen} />
-          <Route path="/profile" component={ProfileScreen} />          
-          <Route path="/:keyword" component={HomeScreen} />
-          <Route path="/" component={HomeScreen} exact />
+          <Switch>
+            <Route path="/login" component={LoginScreen} />
+            <Route path="/register" component={RegisterScreen} />
+            <Route path="/profile" component={ProfileScreen} exact />
+            <Route path="/:keyword" component={HomeScreen} exact />
+            <Route path="/" component={HomeScreen} exact />
+          </Switch>
         </Container>
       </main>
       <Footer />

@@ -42,7 +42,6 @@ const getSecretMessage = asyncHandler(async (req, res) => {
   const { keyword, password } = req.body;
 
   const secretMessage = await SecretMessage.findOne({ keyword });
-
   if (secretMessage && (await secretMessage.matchPassword(password))) {
     res.json({
       _id: secretMessage._id,

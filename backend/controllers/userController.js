@@ -119,9 +119,9 @@ const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
   if (user) {
-    if (req.body.secretMessage) {
-      user.secretMessages.push(req.body.secretMessage);
-    }    
+    if (req.body.secretMessageId) {
+      user.secretMessages.push(req.body.secretMessageId);
+    }
 
     const updatedUser = await user.save();
 

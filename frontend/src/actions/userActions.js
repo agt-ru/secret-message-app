@@ -206,10 +206,11 @@ export const listUsers = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(`/api/users`, config);
+    const usersExceptMe = data.filter((u) => u._id !== userInfo._id);
 
     dispatch({
       type: USER_LIST_SUCCESS,
-      payload: data,
+      payload: usersExceptMe,
     });
   } catch (error) {
     const message =
@@ -226,7 +227,10 @@ export const listUsers = () => async (dispatch, getState) => {
   }
 };
 
-export const updateUser = (user) => async (dispatch, getState) => {
+export const updateUser = (userId, secretMessageId) => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch({
       type: USER_UPDATE_REQUEST,
@@ -243,7 +247,11 @@ export const updateUser = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/users/${user._id}`, user, config);
+    const { data } = await axios.put(
+      `/api/users/${userId}`,
+      { secretMessageId },
+      config
+    );
 
     dispatch({ type: USER_UPDATE_SUCCESS });
 
@@ -251,7 +259,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
 
     dispatch({ type: USER_DETAILS_RESET });
 
-    if (user._id.toString() === userInfo._id.toString()) {
+    if (userId.toString() === userInfo._id.toString()) {
       dispatch({
         type: USER_LOGIN_SUCCESS,
         payload: { ...data, token: userInfo.token },

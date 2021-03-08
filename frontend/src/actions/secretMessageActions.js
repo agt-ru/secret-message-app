@@ -13,9 +13,9 @@ import {
   SECRET_MESSAGE_DELETE_SUCCESS,
   SECRET_MESSAGE_DELETE_FAIL,
 } from "../constants/secretMessageConstants";
-import { logout } from "./userActions";
+import { logout, updateUser } from "./userActions";
 
-export const createSecretMessage = (secretMessage) => async (
+export const createSecretMessage = (secretMessage, usersIds) => async (
   dispatch,
   getState
 ) => {
@@ -40,6 +40,10 @@ export const createSecretMessage = (secretMessage) => async (
       secretMessage,
       config
     );
+
+    for (const userId of usersIds) {
+      dispatch(updateUser(userId, data._id));
+    }
 
     dispatch({
       type: SECRET_MESSAGE_CREATE_SUCCESS,
@@ -85,7 +89,6 @@ export const getSecretMessageDetails = (keyword, password) => async (
       { keyword, password },
       config
     );
-
     dispatch({
       type: SECRET_MESSAGE_DETAILS_SUCCESS,
       payload: data,
