@@ -41,7 +41,7 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
-    secretMessages
+    secretMessages,
   });
   if (user) {
     res.status(201).json({
@@ -69,8 +69,13 @@ const getUserProfile = asyncHandler(async (req, res) => {
       "id keyword"
     );
     const urls = [];
+    console.log(req.headers.host);
+    const urlHost =
+      process.env.NODE_ENV === "development"
+        ? "localhost:3000"
+        : req.headers.host;
     myUser.secretMessages.forEach((msg) => {
-      urls.push(`http://localhost:3000/${msg.keyword}`);
+      urls.push(`http://${urlHost}/${msg.keyword}`);
     });
     res.json({
       _id: myUser._id,
