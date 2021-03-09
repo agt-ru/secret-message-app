@@ -45,23 +45,28 @@ const HomeScreen = ({ match, history }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      createSecretMessage(
-        {
-          message: e.target[0].value,
-          password: e.target[1].value,
-        },
-        [e.target[2].value, userInfo._id]
-      )
-    );
-    history.push('/profile');
+    if (e.target[2].value)
+      dispatch(
+        createSecretMessage(
+          {
+            message: e.target[0].value,
+            password: e.target[1].value,
+          },
+          [e.target[2].value, userInfo._id]
+        )
+      );
+    history.push("/profile");
     // e.target[0].disabled = true;
     // e.target[1].disabled = true;
     // e.target[2].disabled = true;
     // e.target[3].disabled = true;
   };
   return keyword ? (
-    <Route render={({ history }) => <SharedMessage history={history} keyword={keyword} />} />
+    <Route
+      render={({ history }) => (
+        <SharedMessage history={history} keyword={keyword} />
+      )}
+    />
   ) : (
     <FormContainer>
       <h1>Create Secret Message</h1>

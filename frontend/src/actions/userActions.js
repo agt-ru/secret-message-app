@@ -250,7 +250,6 @@ export const updateUser = (userId, secretMessageId) => async (
       { secretMessageId },
       config
     );
-
     dispatch({ type: USER_UPDATE_SUCCESS });
 
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data });

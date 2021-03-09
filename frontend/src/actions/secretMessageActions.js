@@ -37,11 +37,9 @@ export const createSecretMessage = (secretMessage, usersIds) => async (
       secretMessage,
       config
     );
-
     for (const userId of usersIds) {
       dispatch(updateUser(userId, data._id));
     }
-
     dispatch({
       type: SECRET_MESSAGE_CREATE_SUCCESS,
       payload: data,

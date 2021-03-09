@@ -22,7 +22,6 @@ const createSecretMessage = asyncHandler(async (req, res) => {
     keyword,
     password,
   });
-
   if (secretMessage) {
     res.status(201).json({
       _id: secretMessage._id,

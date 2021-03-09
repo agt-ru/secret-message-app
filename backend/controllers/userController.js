@@ -29,6 +29,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
+  const secretMessages = [];
 
   const userExists = await User.findOne({ email });
   if (userExists) {
@@ -40,8 +41,8 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
+    secretMessages
   });
-
   if (user) {
     res.status(201).json({
       _id: user._id,
@@ -71,7 +72,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
     myUser.secretMessages.forEach((msg) => {
       urls.push(`http://localhost:3000/${msg.keyword}`);
     });
-
     res.json({
       _id: myUser._id,
       name: myUser.name,
