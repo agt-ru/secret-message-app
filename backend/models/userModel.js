@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
-// import encrypt from "mongoose-encryption";
+import encrypt from "mongoose-encryption";
 
 dotenv.config();
 
@@ -23,7 +23,6 @@ const userSchema = mongoose.Schema(
     secretMessages: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        // required: true,
         ref: "SecretMessage",
       },
     ],
@@ -46,14 +45,14 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-// const encKey = process.env.SOME_32BYTE_BASE64_STRING;
-// const sigKey = process.env.SOME_64BYTE_BASE64_STRING;
+const encKey = process.env.SOME_32BYTE_BASE64_STRING;
+const sigKey = process.env.SOME_64BYTE_BASE64_STRING;
 
-// userSchema.plugin(encrypt, {
-//   encryptionKey: encKey,
-//   signingKey: sigKey,
-//   encryptedFields: [],
-// });
+userSchema.plugin(encrypt, {
+  encryptionKey: encKey,
+  signingKey: sigKey,
+  excludeFromEncryption: ["secretMessages", "password"],
+});
 
 const User = mongoose.model("User", userSchema);
 

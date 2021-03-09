@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { LinkContainer } from "react-router-bootstrap";
-import { Link, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  Table,
   Button,
-  Row,
-  Col,
-  Dropdown,
-  DropdownButton,
   Form,
 } from "react-bootstrap";
 import Message from "../components/Message";
@@ -21,9 +15,6 @@ import SharedMessage from "../components/SharedMessage";
 const HomeScreen = ({ match, history }) => {
   const [secretMessage, setSecretMessage] = useState("");
   const [password, setPassword] = useState("");
-
-  // const [selectedUser, setSelectedUser] = useState("Users");
-  // const [selectedUserId, setSelectedUserId] = useState("");
 
   const keyword = match.params.keyword;
 
@@ -56,10 +47,6 @@ const HomeScreen = ({ match, history }) => {
         )
       );
     history.push("/profile");
-    // e.target[0].disabled = true;
-    // e.target[1].disabled = true;
-    // e.target[2].disabled = true;
-    // e.target[3].disabled = true;
   };
   return keyword ? (
     <Route
