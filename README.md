@@ -1,5 +1,7 @@
 # An app for sharing secret messages
 
+## Live version: https://agt-ru-secret-message-app.herokuapp.com/
+
 ## .env
 
 ```
