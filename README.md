@@ -8,11 +8,11 @@ Live version: https://agt-ru-secret-message-app.herokuapp.com/
 
 ## Usage:
 
-Home screen:
+Home screen:<br>
 ![screenshot](https://github.com/agt-ru/secret-message-app/blob/main/images/1.png)<br>
 First, click on Register and sign up a new user:
 ![screenshot](https://github.com/agt-ru/secret-message-app/blob/main/images/2.png)<br>
-Then, log out:
+Then, log out:<br>
 ![screenshot](https://github.com/agt-ru/secret-message-app/blob/main/images/3.png)<br>
 Register a second user:
 ![screenshot](https://github.com/agt-ru/secret-message-app/blob/main/images/4.png)<br>
